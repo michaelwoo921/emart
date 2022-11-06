@@ -1,0 +1,19 @@
+.brand .fa-shopping-cart {
+  color: green;
+}
+
+.e-search {
+  width: 80%;
+}
+
+main {
+  min-height: 80vh;
+}
+
+.footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-size: .8rem;
+  padding: 1.2rem;
+}
