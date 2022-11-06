@@ -10,6 +10,11 @@ main {
   min-height: 80vh;
 }
 
+h1 {
+  font-size: 1.8rem;
+  padding: 1rem 0;
+}
+
 .footer {
   background-color: black;
   color: white;

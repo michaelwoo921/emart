@@ -1,38 +1,31 @@
 import React, {useState} from 'react';
 import {Row, Col, Form, Button} from 'react-bootstrap';
-import {Link, useNavigate} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import FormContainer from '../components/FormContainer';
-import Message from '../components/Message';
-import users from '../data/users';
 
 
-const LoginScreen = () => {
-  const navigate = useNavigate();
- let signedInUser;
+const RegisterScreen = () => {
 
- const [error, setError] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
-
-
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   const submitHandler =(e) => {
     e.preventDefault();
-    console.log(email, password)
-    signedInUser = users.find(user => user.email === email && user.password === password);
-    if(signedInUser){
-      navigate('/');
-    } else {
-      setError('Invalid email or password')
-      navigate('/login')
-    }
+    console.log(name,email, password, confirmPassword)
   }
   return (
     <FormContainer>
-       <h1>Sign In</h1>
-
-       {error && <Message variant="danger">{error}</Message>}
+       <h1>Sign Up</h1>
       <Form onSubmit={submitHandler}>
+      <Form.Group className="mb-3" controlId="formBasicName">
+        <Form.Label>Name</Form.Label>
+        <Form.Control type="text" placeholder="Enter name"
+        value={name} onChange={(e) => setName(e.target.value)}
+        />
+      </Form.Group>
+
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
         <Form.Control type="email" placeholder="Enter email"
@@ -46,13 +39,19 @@ const LoginScreen = () => {
          value={password} onChange={(e) => setPassword(e.target.value)}
         />
       </Form.Group>
+      <Form.Group className="mb-3" controlId="formConfirmPassword">
+        <Form.Label>Confirm Password</Form.Label>
+        <Form.Control type="password" placeholder="Password"
+         value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </Form.Group>
 
       <Button variant="success" type="submit">
-        Sign In
+        Signup
       </Button>
       <Row className="py-3">
         <Col>
-        New Customer? <Link to="/register">Register</Link>
+        Already have an account? <Link to="/login">Sign In</Link>
         </Col>
       </Row>
 
@@ -63,4 +62,4 @@ const LoginScreen = () => {
   )
 }
 
-export default LoginScreen
+export default RegisterScreen
