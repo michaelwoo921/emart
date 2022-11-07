@@ -1,6 +1,7 @@
 import path from 'path';
 import dotenv from 'dotenv';
 
+
 import express from 'express';
 import connectDB from './db.js';
 
@@ -9,11 +10,14 @@ import userRoutes from './routes/userRoutes.js';
 import {notFound, errorHandler} from './middleware/errorMiddleware.js';
 
 
-dotenv.config();
+
 
 
 const app = express();
-// connectDB();
+dotenv.config();
+connectDB();
+
+app.use(express.json());
 
 //routes
 app.use('/api/products', productRoutes);
