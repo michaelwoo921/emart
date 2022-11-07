@@ -1,19 +1,26 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom'
 import {Row, Col, Card, ListGroup, Image, Button, Form} from 'react-bootstrap';
+import {useDispatch, useSelector} from 'react-redux';
+import { listProductDetails } from '../actions/productActions';
+import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Rating from '../components/Rating';
-import products from '../data/products';
+// import products from '../data/products';
 
 const ProductScreen = () => {
     const params = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [qty, setQty] =useState(1);
-    const [error, setError] = useState('')
-    const product = products.find(product => product._id === params.id);
-    if(!product){
-        setError('No product found with id: ' + params.id);
-    }
+ 
+    const {product, loading, error} = useSelector(state => state.productDetails);
+    useEffect(() => {
+        dispatch(listProductDetails(params.id));
+    }, [dispatch, params]);
+
+
 
     const addToCartHandler = () => {
         // add to cart
@@ -25,8 +32,9 @@ const ProductScreen = () => {
         <Link to="/" className="btn btn-light my-3" >
             Go Back
         </Link>
-        {error ? <Message>{error}</Message> : (
-             <Fragment>
+        {loading? (<Loader />) : (
+            error ? (<Message variant="danger">{error}</Message>):(
+                <Fragment>
                 <Row>
                         {/* Image */}
                    
@@ -106,7 +114,9 @@ const ProductScreen = () => {
                     </Col>
                 </Row>
             </Fragment>
+            )
         )}
+      
 
     </Fragment>
   )
