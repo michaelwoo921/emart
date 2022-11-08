@@ -74,3 +74,51 @@ export const registerUser = asyncHandler(async (req,res) => {
         token: generateToken(createdUser._id)
     }) 
 })
+
+
+// @desc get user profile from token
+// @method GE/api/users/profile
+// @access private
+export const getUserProfile = asyncHandler(async (req,res) => {
+    res.json({
+      _id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+      isAdmin: req.user.isAdmin
+    }) 
+})
+
+// @desc update user profile from token
+// @method PUT api/users/profile
+// @access private
+export const updateUserProfile = asyncHandler(async (req,res) => {
+    const user = await User.findById(req.user._id);
+    if(user){
+        if(req.body.name){
+            user.name = req.body.name;
+        }
+    if(req.body.email){
+        user.email = req.body.email;
+    }
+    if(req.body.password){
+        user.password = req.body.password;
+    }
+    await user.save();
+    res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        password:  user.password,
+        isAdmin: user.isAdmin
+      }) 
+
+    }else{
+        res.status(404);
+        throw new User('User not found')
+    }
+
+
+
+
+
+})

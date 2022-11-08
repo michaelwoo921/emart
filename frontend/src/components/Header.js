@@ -1,9 +1,17 @@
 import React from 'react';
-import {Navbar, Container, Form, Nav, Button} from 'react-bootstrap';
+import {Navbar, Container, Form, Nav, Button, NavDropdown} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
+import {useSelector, useDispatch} from 'react-redux';
+import {logout} from '../actions/userActions'
 import SearchBox from './SearchBox';
 
 const Header = () => {
+    const dispatch = useDispatch();
+    const {userInfo} = useSelector(state => state.userLogin)
+
+    const logoutHandler = () => {
+        dispatch(logout());
+    }
   return (
     <header className="header">
         <Navbar bg="dark" variant="dark" className="navbar" expand="lg"  collapseOnSelect>
@@ -25,12 +33,24 @@ const Header = () => {
                     style={{ maxHeight: '100px' }}
                     navbarScroll
                 >
+                {userInfo? (
+                    <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                        <LinkContainer to="/profile" >
+                        <NavDropdown.Item >Profile</NavDropdown.Item>
+                        </LinkContainer>
+                        <NavDropdown.Item onClick={logoutHandler}>
+                            Logout
+                        </NavDropdown.Item>
+                    </NavDropdown>
+                ):(
                     <LinkContainer to='/login'>
                     <Nav.Link><i className="fas fa-user"></i> User</Nav.Link>
                     </LinkContainer>
-                    <LinkContainer to="/cart">
-                    <Nav.Link>  <i className="fas fa-shopping-cart"></i> Cart </Nav.Link>
-                    </LinkContainer>
+                )}
+
+                <LinkContainer to="/cart">
+                <Nav.Link>  <i className="fas fa-shopping-cart"></i> Cart </Nav.Link>
+                </LinkContainer>
                 
                     
             
